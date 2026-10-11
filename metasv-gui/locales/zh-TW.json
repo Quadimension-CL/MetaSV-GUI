@@ -1,0 +1,66 @@
+{
+  "app_title": "MetaSV GUI",
+  "app_subtitle": "歌聲合成訓練工具 - Web 介面",
+  "metasv_path": "MetaSV 路徑",
+  "not_found": "⚠️ 未找到 MetaSV 執行檔案",
+
+  "tab_capture": "📦 資料集採集",
+  "tab_train": "🎓 模型訓練",
+  "tab_export": "📤 聲庫匯出",
+  "tab_render": "🎤 歌聲渲染",
+
+  "section_capture": "資料集採集",
+  "section_train": "模型訓練",
+  "section_export": "聲庫匯出",
+  "section_render": "歌聲渲染",
+
+  "label_base_voice": "基礎聲庫 (.nofs)",
+  "label_teacher_voice": "教師聲庫 (.nofs)",
+  "label_train_project": "訓練專案 (.svp)",
+  "label_validation_project": "驗證專案 (.svp)",
+  "label_dictionary": "詞典目錄 (clf-data)",
+  "label_output": "輸出目錄",
+  "label_language": "語言",
+  "label_model": "基礎模型 (.dnni)",
+  "label_dataset": "資料集 (dataset.json)",
+  "label_train_steps": "訓練步數",
+  "label_time_limit": "時間限制 (秒, 0=無限制)",
+  "label_voice": "聲庫",
+  "label_trained_model": "訓練模型 (.dnni)",
+  "label_output_file": "輸出檔案",
+  "label_project": "專案 (.svp)",
+  "label_pitch_mode": "音高模式",
+
+  "placeholder_base_voice": "/path/to/base.nofs",
+  "placeholder_teacher_voice": "/path/to/teacher.nofs",
+  "placeholder_train_project": "/path/to/train.svp",
+  "placeholder_validation_project": "/path/to/validation.svp",
+  "placeholder_dictionary": "/path/to/clf-data",
+  "placeholder_output": "/path/to/dataset",
+  "placeholder_model": "/path/to/base_model.dnni",
+  "placeholder_dataset": "/path/to/dataset.json",
+  "placeholder_output_dir": "/path/to/runs/demo",
+  "placeholder_voice": "/path/to/voice.nofs",
+  "placeholder_trained_model": "/path/to/trained-base.dnni",
+  "placeholder_output_nofs": "/path/to/trained.nofs",
+  "placeholder_project": "/path/to/song.svp",
+  "placeholder_output_wav": "/path/to/song.wav",
+
+  "language_mandarin": "國語 (Mandarin)",
+  "language_japanese": "日語 (Japanese)",
+
+  "pitch_notes": "音符音高 (Notes)",
+  "pitch_auto": "自動 F0 (Auto)",
+
+  "btn_start_capture": "開始採集",
+  "btn_start_train": "開始訓練",
+  "btn_export": "匯出聲庫",
+  "btn_start_render": "開始渲染",
+  "btn_stop": "停止",
+
+  "log_waiting": "等待開始...",
+  "log_command": "執行命令:",
+
+  "status_running": "運行中",
+  "status_idle": "閒置"
+}

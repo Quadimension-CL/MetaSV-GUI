@@ -1,0 +1,66 @@
+{
+  "app_title": "MetaSV GUI",
+  "app_subtitle": "歌声合成トレーニングツール - Web インターフェース",
+  "metasv_path": "MetaSV パス",
+  "not_found": "⚠️ MetaSV 実行ファイルが見つかりません",
+
+  "tab_capture": "📦 データセットキャプチャ",
+  "tab_train": "🎓 モデルトレーニング",
+  "tab_export": "📤 ボイスバンクエクスポート",
+  "tab_render": "🎤 歌声レンダリング",
+
+  "section_capture": "データセットキャプチャ",
+  "section_train": "モデルトレーニング",
+  "section_export": "ボイスバンクエクスポート",
+  "section_render": "歌声レンダリング",
+
+  "label_base_voice": "ベースボイスバンク (.nofs)",
+  "label_teacher_voice": "教師ボイスバンク (.nofs)",
+  "label_train_project": "トレーニングプロジェクト (.svp)",
+  "label_validation_project": "検証プロジェクト (.svp)",
+  "label_dictionary": "辞書ディレクトリ (clf-data)",
+  "label_output": "出力ディレクトリ",
+  "label_language": "言語",
+  "label_model": "ベースモデル (.dnni)",
+  "label_dataset": "データセット (dataset.json)",
+  "label_train_steps": "トレーニングステップ数",
+  "label_time_limit": "時間制限 (秒, 0=無制限)",
+  "label_voice": "ボイスバンク",
+  "label_trained_model": "トレーニング済みモデル (.dnni)",
+  "label_output_file": "出力ファイル",
+  "label_project": "プロジェクト (.svp)",
+  "label_pitch_mode": "ピッチモード",
+
+  "placeholder_base_voice": "/path/to/base.nofs",
+  "placeholder_teacher_voice": "/path/to/teacher.nofs",
+  "placeholder_train_project": "/path/to/train.svp",
+  "placeholder_validation_project": "/path/to/validation.svp",
+  "placeholder_dictionary": "/path/to/clf-data",
+  "placeholder_output": "/path/to/dataset",
+  "placeholder_model": "/path/to/base_model.dnni",
+  "placeholder_dataset": "/path/to/dataset.json",
+  "placeholder_output_dir": "/path/to/runs/demo",
+  "placeholder_voice": "/path/to/voice.nofs",
+  "placeholder_trained_model": "/path/to/trained-base.dnni",
+  "placeholder_output_nofs": "/path/to/trained.nofs",
+  "placeholder_project": "/path/to/song.svp",
+  "placeholder_output_wav": "/path/to/song.wav",
+
+  "language_mandarin": "中国語 (Mandarin)",
+  "language_japanese": "日本語 (Japanese)",
+
+  "pitch_notes": "音符ピッチ (Notes)",
+  "pitch_auto": "自動 F0 (Auto)",
+
+  "btn_start_capture": "キャプチャ開始",
+  "btn_start_train": "トレーニング開始",
+  "btn_export": "ボイスバンクエクスポート",
+  "btn_start_render": "レンダリング開始",
+  "btn_stop": "停止",
+
+  "log_waiting": "開始を待っています...",
+  "log_command": "コマンド実行中:",
+
+  "status_running": "実行中",
+  "status_idle": "待機中"
+}

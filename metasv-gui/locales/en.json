@@ -1,0 +1,66 @@
+{
+  "app_title": "MetaSV GUI",
+  "app_subtitle": "Singing Synthesis Training Tool - Web Interface",
+  "metasv_path": "MetaSV Path",
+  "not_found": "⚠️ MetaSV executable file not found",
+
+  "tab_capture": "📦 Dataset Capture",
+  "tab_train": "🎓 Model Training",
+  "tab_export": "📤 Voice Export",
+  "tab_render": "🎤 Singing Rendering",
+
+  "section_capture": "Dataset Capture",
+  "section_train": "Model Training",
+  "section_export": "Voice Export",
+  "section_render": "Singing Rendering",
+
+  "label_base_voice": "Base Voice (.nofs)",
+  "label_teacher_voice": "Teacher Voice (.nofs)",
+  "label_train_project": "Training Project (.svp)",
+  "label_validation_project": "Validation Project (.svp)",
+  "label_dictionary": "Dictionary Directory (clf-data)",
+  "label_output": "Output Directory",
+  "label_language": "Language",
+  "label_model": "Base Model (.dnni)",
+  "label_dataset": "Dataset (dataset.json)",
+  "label_train_steps": "Training Steps",
+  "label_time_limit": "Time Limit (seconds, 0=unlimited)",
+  "label_voice": "Voice Bank",
+  "label_trained_model": "Trained Model (.dnni)",
+  "label_output_file": "Output File",
+  "label_project": "Project (.svp)",
+  "label_pitch_mode": "Pitch Mode",
+
+  "placeholder_base_voice": "/path/to/base.nofs",
+  "placeholder_teacher_voice": "/path/to/teacher.nofs",
+  "placeholder_train_project": "/path/to/train.svp",
+  "placeholder_validation_project": "/path/to/validation.svp",
+  "placeholder_dictionary": "/path/to/clf-data",
+  "placeholder_output": "/path/to/dataset",
+  "placeholder_model": "/path/to/base_model.dnni",
+  "placeholder_dataset": "/path/to/dataset.json",
+  "placeholder_output_dir": "/path/to/runs/demo",
+  "placeholder_voice": "/path/to/voice.nofs",
+  "placeholder_trained_model": "/path/to/trained-base.dnni",
+  "placeholder_output_nofs": "/path/to/trained.nofs",
+  "placeholder_project": "/path/to/song.svp",
+  "placeholder_output_wav": "/path/to/song.wav",
+
+  "language_mandarin": "Mandarin",
+  "language_japanese": "Japanese",
+
+  "pitch_notes": "Note Pitch (Notes)",
+  "pitch_auto": "Auto F0 (Auto)",
+
+  "btn_start_capture": "Start Capture",
+  "btn_start_train": "Start Training",
+  "btn_export": "Export Voice",
+  "btn_start_render": "Start Rendering",
+  "btn_stop": "Stop",
+
+  "log_waiting": "Waiting to start...",
+  "log_command": "Executing command:",
+
+  "status_running": "Running",
+  "status_idle": "Idle"
+}

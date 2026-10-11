@@ -1,5 +1,9 @@
 # MetaSV
 
+[简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [English](README.en.md) | [日本語](README.ja.md)
+
+---
+
 歌声模型命令行工具。Rust 负责采集和渲染，Python／PyTorch 负责训练。
 
 ## 安装
