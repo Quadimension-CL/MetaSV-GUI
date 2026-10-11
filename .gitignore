@@ -1,0 +1,35 @@
+/target/
+/local/
+/results/
+*.nofs
+*.dnni
+*.wav
+*.f32
+*.pt
+*.npz
+__pycache__/
+*.egg-info/
+.venv/
+
+# GUI specific
+metasv-gui/venv/
+metasv-gui/.venv/
+*.pyc
+.DS_Store
+*.log
+*.output
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# macOS resource forks
+._*
+.AppleDouble
+.LSOverride

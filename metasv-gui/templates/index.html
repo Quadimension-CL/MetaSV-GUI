@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaSV GUI - 歌声合成训练工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .metasv-path {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: white;
+            border-bottom-color: #667eea;
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .log-container {
+            margin-top: 30px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .log-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .log-container::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+
+        .log-container::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        .log-line {
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .status-running {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-idle {
+            background: #6c757d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 MetaSV GUI</h1>
+            <p>歌声合成训练工具 - Web 界面</p>
+            {% if metasv_path %}
+            <div class="metasv-path">MetaSV: {{ metasv_path }}</div>
+            {% else %}
+            <div class="metasv-path" style="background: rgba(220, 53, 69, 0.3);">⚠️ 未找到 MetaSV 可执行文件</div>
+            {% endif %}
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('capture')">📦 数据集采集</div>
+            <div class="tab" onclick="switchTab('train')">🎓 模型训练</div>
+            <div class="tab" onclick="switchTab('export')">📤 声库导出</div>
+            <div class="tab" onclick="switchTab('render')">🎤 歌声渲染</div>
+        </div>
+
+        <!-- 数据集采集 -->
+        <div id="capture" class="tab-content active">
+            <h2 class="section-title">数据集采集</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>基础声库 (.nofs)</label>
+                    <input type="text" id="capture_base_voice" placeholder="/path/to/base.nofs">
+                </div>
+                <div class="form-group">
+                    <label>教师声库 (.nofs)</label>
+                    <input type="text" id="capture_teacher_voice" placeholder="/path/to/teacher.nofs">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>训练项目 (.svp)</label>
+                    <input type="text" id="capture_train_project" placeholder="/path/to/train.svp">
+                </div>
+                <div class="form-group">
+                    <label>验证项目 (.svp)</label>
+                    <input type="text" id="capture_validation_project" placeholder="/path/to/validation.svp">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>词典目录 (clf-data)</label>
+                    <input type="text" id="capture_dictionary" placeholder="/path/to/clf-data">
+                </div>
+                <div class="form-group">
+                    <label>输出目录</label>
+                    <input type="text" id="capture_output" placeholder="/path/to/dataset">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>语言</label>
+                <select id="capture_language">
+                    <option value="mandarin">普通话 (Mandarin)</option>
+                    <option value="japanese">日语 (Japanese)</option>
+                </select>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="startCapture()">开始采集</button>
+                <button class="btn btn-danger" onclick="stopProcess()">停止</button>
+            </div>
+            <div class="log-container" id="capture_log">等待开始...</div>
+        </div>
+
+        <!-- 模型训练 -->
+        <div id="train" class="tab-content">
+            <h2 class="section-title">模型训练</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>基础模型 (.dnni)</label>
+                    <input type="text" id="train_model" placeholder="/path/to/base_model.dnni">
+                </div>
+                <div class="form-group">
+                    <label>数据集 (dataset.json)</label>
+                    <input type="text" id="train_dataset" placeholder="/path/to/dataset.json">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>输出目录</label>
+                <input type="text" id="train_output" placeholder="/path/to/runs/demo">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>训练步数</label>
+                    <input type="number" id="train_steps" value="6000" min="10" max="1000000">
+                </div>
+                <div class="form-group">
+                    <label>时间限制 (秒, 0=无限制)</label>
+                    <input type="number" id="train_seconds" value="1800" min="0">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="startTrain()">开始训练</button>
+                <button class="btn btn-danger" onclick="stopProcess()">停止</button>
+            </div>
+            <div class="log-container" id="train_log">等待开始...</div>
+        </div>
+
+        <!-- 声库导出 -->
+        <div id="export" class="tab-content">
+            <h2 class="section-title">声库导出</h2>
+            <div class="form-group">
+                <label>基础声库</label>
+                <input type="text" id="export_voice" placeholder="/path/to/base.nofs">
+            </div>
+            <div class="form-group">
+                <label>训练模型 (.dnni)</label>
+                <input type="text" id="export_model" placeholder="/path/to/trained-base.dnni">
+            </div>
+            <div class="form-group">
+                <label>输出文件 (.nofs)</label>
+                <input type="text" id="export_output" placeholder="/path/to/trained.nofs">
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="startExport()">导出声库</button>
+            </div>
+            <div class="log-container" id="export_log">等待开始...</div>
+        </div>
+
+        <!-- 歌声渲染 -->
+        <div id="render" class="tab-content">
+            <h2 class="section-title">歌声渲染</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>声库 (.nofs)</label>
+                    <input type="text" id="render_voice" placeholder="/path/to/voice.nofs">
+                </div>
+                <div class="form-group">
+                    <label>项目 (.svp)</label>
+                    <input type="text" id="render_project" placeholder="/path/to/song.svp">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>词典目录 (clf-data)</label>
+                    <input type="text" id="render_dictionary" placeholder="/path/to/clf-data">
+                </div>
+                <div class="form-group">
+                    <label>输出文件 (.wav)</label>
+                    <input type="text" id="render_output" placeholder="/path/to/song.wav">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>语言</label>
+                    <select id="render_language">
+                        <option value="mandarin">普通话 (Mandarin)</option>
+                        <option value="japanese">日语 (Japanese)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>音高模式</label>
+                    <select id="render_pitch_mode">
+                        <option value="notes">音符音高 (Notes)</option>
+                        <option value="auto">自动 F0 (Auto)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="startRender()">开始渲染</button>
+            </div>
+            <div class="log-container" id="render_log">等待开始...</div>
+        </div>
+    </div>
+
+    <script>
+        let logInterval = null;
+
+        function switchTab(tabName) {
+            // 隐藏所有标签页
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+            // 显示选中的标签页
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function startLogPolling(logId) {
+            if (logInterval) clearInterval(logInterval);
+
+            logInterval = setInterval(() => {
+                fetch('/api/logs')
+                    .then(r => r.json())
+                    .then(data => {
+                        const logContainer = document.getElementById(logId);
+                        logContainer.innerHTML = data.logs.map(line =>
+                            `<div class="log-line">${escapeHtml(line)}</div>`
+                        ).join('');
+                        logContainer.scrollTop = logContainer.scrollHeight;
+                    });
+            }, 1000);
+        }
+
+        function stopLogPolling() {
+            if (logInterval) {
+                clearInterval(logInterval);
+                logInterval = null;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function startCapture() {
+            const data = {
+                base_voice: document.getElementById('capture_base_voice').value,
+                teacher_voice: document.getElementById('capture_teacher_voice').value,
+                train_project: document.getElementById('capture_train_project').value,
+                validation_project: document.getElementById('capture_validation_project').value,
+                dictionary: document.getElementById('capture_dictionary').value,
+                output: document.getElementById('capture_output').value,
+                language: document.getElementById('capture_language').value
+            };
+
+            fetch('/api/capture', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(r => r.json())
+            .then(result => {
+                document.getElementById('capture_log').innerHTML = `<div class="log-line">执行命令: ${result.command}</div>`;
+                startLogPolling('capture_log');
+            });
+        }
+
+        function startTrain() {
+            const data = {
+                model: document.getElementById('train_model').value,
+                dataset: document.getElementById('train_dataset').value,
+                output: document.getElementById('train_output').value,
+                steps: parseInt(document.getElementById('train_steps').value),
+                seconds: parseInt(document.getElementById('train_seconds').value)
+            };
+
+            fetch('/api/train', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(r => r.json())
+            .then(result => {
+                document.getElementById('train_log').innerHTML = `<div class="log-line">执行命令: ${result.command}</div>`;
+                startLogPolling('train_log');
+            });
+        }
+
+        function startExport() {
+            const data = {
+                voice: document.getElementById('export_voice').value,
+                model: document.getElementById('export_model').value,
+                output: document.getElementById('export_output').value
+            };
+
+            fetch('/api/export', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(r => r.json())
+            .then(result => {
+                document.getElementById('export_log').innerHTML = `<div class="log-line">执行命令: ${result.command}</div>`;
+                startLogPolling('export_log');
+            });
+        }
+
+        function startRender() {
+            const data = {
+                voice: document.getElementById('render_voice').value,
+                project: document.getElementById('render_project').value,
+                dictionary: document.getElementById('render_dictionary').value,
+                output: document.getElementById('render_output').value,
+                language: document.getElementById('render_language').value,
+                pitch_mode: document.getElementById('render_pitch_mode').value
+            };
+
+            fetch('/api/render', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(r => r.json())
+            .then(result => {
+                document.getElementById('render_log').innerHTML = `<div class="log-line">执行命令: ${result.command}</div>`;
+                startLogPolling('render_log');
+            });
+        }
+
+        function stopProcess() {
+            fetch('/api/stop', {method: 'POST'})
+                .then(r => r.json())
+                .then(result => alert('进程已停止'));
+            stopLogPolling();
+        }
+    </script>
+</body>
+</html>
